@@ -4,7 +4,6 @@ FROM node
 WORKDIR /nodejs
 
 # Install Node.js and npm
-RUN apk add --update nodejs npm
 
 ENV PORT=3000
 ENV STATIC_DIR="./client"
