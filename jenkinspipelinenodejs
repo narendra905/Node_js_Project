@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    stages {
+        stage('git checkout') {
+            steps {
+             git branch: 'main', url: 'https://github.com/narendra905/Node_js_Project.git'   
+            }
+        }
+        stage('build') {
+            steps {
+                sh "npm install"
+            }
+        }
+        stage('docker build image') {
+            steps {
+                sh "docker build -t node-v1 ."
+            }
+        }
+        stage('run container') {
+          steps {
+              sh "docker run -itd -p 500:3000 --name name1 node-v1"
+         }
+        }
+        stage("docker login"){
+            steps {
+                sh "docker login -u naren143 -p Naren@143"
+            }
+        }
+        stage("docker tag"){
+            steps{
+                sh "docker tag node-v1:latest naren143/qa:node-v1"
+            }
+        }
+        stage("docker push"){
+            steps{
+                sh "docker push naren143/qa:node-v1"
+            }
+        }
+        
+    }
+}
